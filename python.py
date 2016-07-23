@@ -1,55 +1,26 @@
 import ipdb
 import os
+import shutil
 
 
-#for root, dir, files in os.walk('C:\\Users\\Gesina Phillips\\Desktop\\temp_copy'):
-#	for filename in files:
-#		if filename == 'index.txt':
-#		ipdb.set_trace()
-#			print(filename)
+def rename_contentdm_files(data_root):
+	data_root = os.path.normpath(data_root)
+	output_dir = data_root + os.sep + 'renamed_files'
+	if os.path.exists(output_dir):
+		print('The directory {0} already exists!'.format(output_dir))
+	if not os.path.exists(output_dir):
+		os.mkdir(output_dir)
+	for root, dir, files in os.walk(data_root):
+		norm_root = os.path.normpath(root)
+		for filename in files:
+			path = os.path.join(norm_root, filename)
+			if filename == 'index.txt':
+				old_path = os.path.join(norm_root, filename)
+				split = old_path.split('temp_copy')
+				split_1 = split[1]
+				renamed_file = split[1].replace('\\', '_')
+				renamed_file = renamed_file[1:]
+				new_path = os.path.join(output_dir, renamed_file)
+				shutil.copy2(renamed_file, new_path)
 
-#path = 'C:\\Users\\Gesina Phillips\\Desktop\\temp_copy\\folder1\\'
-#for filename in os.listdir(path):
-#	if filename == 'index.txt':
-#		os.rename (os.path.join(path, filename), os.path.join(path, 'indexlol.txt'))
-
-
-# for root, dir, files in os.walk('C:\\Users\\Gesina Phillips\\Desktop\\temp_copy'):
-	# for filename in files:
-#		print(os.path.join(root, filename))
-#		ipdb.set_trace(
-		# if filename == 'index.txt':
-			# old = os.path.join(root, filename)
-			# new = os.path.join(root, 'indexlol.txt')
-			# print(old)
-			# print(new)
-#			os.rename (old, new)
-
-notes:
-
-os.path.split('C:\\Users\\Gesina Phillips\\Desktop\\temp_copy\\folder3\\subdir4\\subsubdir4\\temp_copy\\subsubsubdir1')
-
->>> import os
->>> os.path.split('C:\\Users\\Gesina Phillips\\Desktop\\temp_copy\\folder3\\subdir4\\subsubdir4\\temp_copy\\subsubsubdir1')
-('C:\\Users\\Gesina Phillips\\Desktop\\temp_copy\\folder3\\subdir4\\subsubdir4\\temp_copy', 'subsubsubdir1')
->>> path = 'C:\\Users\\Gesina Phillips\\Desktop\\temp_copy\\folder3\\subdir4\\subsubdir4\\temp_copy\\subsubsubdir1'
->>> path
-'C:\\Users\\Gesina Phillips\\Desktop\\temp_copy\\folder3\\subdir4\\subsubdir4\\temp_copy\\subsubsubdir1'
->>> path.split('temp_copy')
-['C:\\Users\\Gesina Phillips\\Desktop\\', '\\folder3\\subdir4\\subsubdir4\\', '\\subsubsubdir1']
->>> split = path.split('temp_copy')
->>> split
-['C:\\Users\\Gesina Phillips\\Desktop\\', '\\folder3\\subdir4\\subsubdir4\\', '\\subsubsubdir1']
->>> del split[0]
->>> split
-['\\folder3\\subdir4\\subsubdir4\\', '\\subsubsubdir1']
->>> 'temp_copy'.join(split)
-'\\folder3\\subdir4\\subsubdir4\\temp_copy\\subsubsubdir1'
->>> muppets = ['kermit']
->>> '-'.join(muppets)
-'kermit'
->>> muppets.append('piggy')
->>> '-'.join(muppets)
-'kermit-piggy'
-
-use os.path.normpath
+rename_contentdm_files('C:\\Users\\Gesina Phillips\\Desktop\\temp_copy')
